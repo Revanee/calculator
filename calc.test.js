@@ -1,25 +1,37 @@
 const calc = require('./calc')
 
-test('Literal 0', () => {
+test('Single zero', () => {
     expect(calc('0')).toBe(0)
 })
 
-test('Literal 5', () => {
-    expect(calc('5')).toBe(5)
+test('Single positive', () => {
+    expect(calc('+5')).toBe(+5)
 })
 
-test('Literal -5', () => {
+test('Single negative', () => {
     expect(calc('-5')).toBe(-5)
 })
 
-test('Addition 1+1', () => {
+test('Addition', () => {
     expect(calc('1+1')).toBe(2)
 })
 
-test('Subtraction 2-1', () => {
+test('Subtraction', () => {
     expect(calc('2-1')).toBe(1)
 })
 
-test('Addition and subtraction 2+5-1-2+4', () => {
+test('Addition and subtraction', () => {
     expect(calc('2+5-1-2+4')).toBe(8)
+})
+
+test('With spaces', () => {
+    expect(calc('2 - 3')).toBe(-1)
+})
+
+test('Single parenthesis', () => {
+    expect(calc('(1+2)')).toBe(3)
+})
+
+test('Multiple parenthesis', () => {
+    expect(calc('(1+2)-3+(4-1)')).toBe(3)
 })
