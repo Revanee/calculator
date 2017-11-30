@@ -7,7 +7,7 @@ function calc (data) {
 
     let fSign = false
     let fNumStarted = false
-    let fParenthesis = false
+    let fParenthesis = 0
 
     data.forEach(element => {
         if (!fParenthesis) {
@@ -30,14 +30,18 @@ function calc (data) {
                 fNumStarted = false
             }
             if (element.match(/\(/)) {
-                fParenthesis = true
+                fParenthesis++
                 numbers.push([])
             } 
         } else {
             if (element.match(/\)/)) {
-                fParenthesis = false
-                numbers[numbers.length - 1] = fSign ? Number(fSign + '1') * calc(numbers[numbers.length - 1]) : calc(numbers[numbers.length - 1])
+                fParenthesis--
+                if (!fParenthesis) numbers[numbers.length - 1] = fSign ? Number(fSign + '1') * calc(numbers[numbers.length - 1]) : calc(numbers[numbers.length - 1])
+                else numbers[numbers.length - 1] = numbers[numbers.length - 1] + element
                 fSign = false
+            } else if (element.match(/\(/)) {
+                numbers[numbers.length - 1] = numbers[numbers.length - 1] + element
+                fParenthesis++
             } else {
                 numbers[numbers.length - 1] = numbers[numbers.length - 1] + element
             }

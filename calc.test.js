@@ -39,3 +39,7 @@ test('Single parenthesis', () => {
 test('Multiple parenthesis', () => {
     expect(calc('(1+2)+3-(-4+1)')).toBe(9)
 })
+
+test('Parenthesis within parenthesis', () => {
+    expect(calc('3+(4-(13+3))')).toBe(-9)
+})
