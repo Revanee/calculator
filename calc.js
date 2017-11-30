@@ -1,32 +1,51 @@
 function calc (data) {
     data = data.replace(/\s/g, '')
-
-    if(data.split(/\(|\)/g).length !== 1) {
-        data = data.split('')
-        values = [[]]
-        data.forEach(element => {
-            if(element !== "(" && element !== ")") values[values.length - 1].push(element)
-            else if (element === "(") values.push([])
-            else if (element === ")") values.push([])
-        });
-        return values
-        return values = values.map(x => calc(x.join('')))
-        // return values.reduce((sum, val) => sum + val)
-    }
     
     data = data.split('')
 
-    data = data.reduce((arr, sym) => {
-        if (Number(sym)) arr[arr.length - 1].push(sym)
-        else (arr.push([sym]))
-        return arr
-    }, [[]])
+    let numbers = []
 
-    data = data.map(x => x.join(''))
+    let fSign = false
+    let fNumStarted = false
+    let fParenthesis = false
 
-    data = data.reduce((acc, num) => acc + Number(num), 0)
+    data.forEach(element => {
+        if (!fParenthesis) {
+            if (element.match(/[0-9]/)) {
+                if (fNumStarted) {
+                    numbers[numbers.length - 1] = numbers[numbers.length - 1] + element
+                }
+                else {
+                    if (fSign) numbers.push(fSign + element)
+                    else numbers.push(element)
+                    fNumStarted = true
+                }
+            }
+            if (element.match(/\+/)) {
+                fSign = '+'
+                fNumStarted = false
+            }
+            if (element.match(/-/)) {
+                fSign = '-'
+                fNumStarted = false
+            }
+            if (element.match(/\(/)) {
+                fParenthesis = true
+                numbers.push([])
+            } 
+        } else {
+            if (element.match(/\)/)) {
+                fParenthesis = false
+                numbers[numbers.length - 1] = fSign ? Number(fSign + '1') * calc(numbers[numbers.length - 1]) : calc(numbers[numbers.length - 1])
+                fSign = false
+            } else {
+                numbers[numbers.length - 1] = numbers[numbers.length - 1] + element
+            }
+        }
 
-    return data
+    });
+
+    return numbers.reduce((acc, x) => acc + Number(x), 0)
 }
 
 module.exports = calc

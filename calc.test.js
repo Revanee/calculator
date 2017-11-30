@@ -12,6 +12,10 @@ test('Single negative', () => {
     expect(calc('-5')).toBe(-5)
 })
 
+test('Double digit', () => {
+    expect(calc('58')).toBe(58)
+})
+
 test('Addition', () => {
     expect(calc('1+1')).toBe(2)
 })
@@ -33,5 +37,5 @@ test('Single parenthesis', () => {
 })
 
 test('Multiple parenthesis', () => {
-    expect(calc('(1+2)-3+(4-1)')).toBe(3)
+    expect(calc('(1+2)+3-(-4+1)')).toBe(9)
 })
